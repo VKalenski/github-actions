@@ -2,13 +2,17 @@ name: Build and Test .NET
 
 on:
   workflow_call:
+    inputs:
+      project-name:
+        required: true
+        type: string
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -16,10 +20,10 @@ jobs:
           dotnet-version: '9.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore ${{ inputs.project-name }}
 
       - name: Build
-        run: dotnet build --no-restore
+        run: dotnet build ${{ inputs.project-name }} --no-restore
 
       - name: Run Tests
-        run: dotnet test --no-build --verbosity normal
+        run: dotnet test ${{ inputs.project-name }} --no-build --verbosity normal
