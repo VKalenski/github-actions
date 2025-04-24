@@ -32,10 +32,4 @@ jobs:
         run: dotnet build ${{ inputs.project-name }} --no-restore
 
       - name: Run Tests
-        run: dotnet test ${{ inputs.project-name }} --no-build --verbosity normal --logger "trx;LogFileName=test_results.trx"
-
-      - name: Upload Test Results
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results
-          path: ${{ inputs.project-name }}/test_results.trx
+        run: dotnet test ${{ inputs.project-name }} --no-build --verbosity normal
