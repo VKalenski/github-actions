@@ -4,6 +4,7 @@ on:
   workflow_call:
     inputs:
       project-name:
+        description: 'The .NET project to work with'
         required: true
         type: string
       dotnet-version:
@@ -21,15 +22,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: ./.github/actions/dotnet-version@main
         with:
+          project-name: ${{ inputs.project-name }}
           dotnet-version: ${{ inputs.dotnet-version }}
-
-      - name: Restore dependencies
-        run: dotnet restore ${{ inputs.project-name }}
-
-      - name: Build
-        run: dotnet build ${{ inputs.project-name }} --no-restore
-
-      - name: Run Tests
-        run: dotnet test ${{ inputs.project-name }} --no-build --verbosity normal
