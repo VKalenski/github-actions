@@ -21,12 +21,16 @@ runs:
 
     - name: Show .NET version
       run: dotnet --version
+      shell: bash
 
     - name: Restore dependencies
       run: dotnet restore ${{ inputs.project-name }}
+      shell: bash
 
     - name: Build project
       run: dotnet build ${{ inputs.project-name }} --no-restore
+      shell: bash
 
     - name: Run Tests
       run: dotnet test ${{ inputs.project-name }} --no-build --verbosity normal
+      shell: bash
