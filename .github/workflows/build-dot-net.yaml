@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup .NET
-        uses: ./.github/actions/dotnet-version@main
+        uses: VKalenski/GitHub-Actions-Templates/.github/actions/dotnet-version@main
         with:
           project-name: ${{ inputs.project-name }}
           dotnet-version: ${{ inputs.dotnet-version }}
