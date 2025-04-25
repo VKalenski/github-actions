@@ -2,17 +2,22 @@ name: Notify on Build Completion
 
 on:
   workflow_call:
+    secrets:
+        SLACK_WEBHOOK_URL:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
     steps:
       - name: Notify Slack on success
         if: success()
         run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"Build completed successfully!"}' ${{ secrets.SLACK_WEBHOOK_URL }}
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Build completed successfully!"}' ${{ env.SLACK_WEBHOOK_URL }}
 
       - name: Notify Slack on failure
         if: failure()
         run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"Build failed! Please check the logs."}' ${{ secrets.SLACK_WEBHOOK_URL }}
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Build failed! Please check the logs."}' ${{ env.SLACK_WEBHOOK_URL }}
