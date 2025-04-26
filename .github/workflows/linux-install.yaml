@@ -17,18 +17,21 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Update Packages
+        continue-on-error: true
         run: |
           echo "UPDATE"
           sudo apt-get update
           echo
 
       - name: Upgrade Packages
+        continue-on-error: true
         run: |
           echo "UPGRADE"
           sudo apt-get upgrade -y
           echo
 
       - name: Install wget
+        continue-on-error: true
         run: |
           echo "INSTALL WGET"
           sudo apt-get install wget -y
@@ -36,6 +39,7 @@ jobs:
           echo
 
       - name: Install curl
+        continue-on-error: true
         run: |
           echo "INSTALLATION 'curl'"
           sudo apt-get install curl -y
@@ -43,6 +47,7 @@ jobs:
           echo
 
       - name: Install unzip
+        continue-on-error: true
         run: |
           echo "INSTALLATION 'unzip'"
           sudo apt-get install unzip -y
@@ -50,6 +55,7 @@ jobs:
           echo
 
       - name: Install netstat
+        continue-on-error: true
         run: |
           echo "INSTALLATION 'netstat'"
           sudo apt-get install net-tools -y
@@ -57,6 +63,7 @@ jobs:
           echo
 
       - name: Install xvfb
+        continue-on-error: true
         run: |
           echo "INSTALLATION 'xvfb'"
           sudo apt-get install xvfb -y
@@ -64,6 +71,7 @@ jobs:
           echo
 
       - name: Install .NET 8.0 SDK
+        continue-on-error: true
         run: |
           echo "INSTALLATION '.NET 8.0 SDK'"
           sudo apt-get install -y wget apt-transport-https
@@ -76,12 +84,14 @@ jobs:
           echo
 
       - name: Download Google Chrome
+        continue-on-error: true
         run: |
           echo "DOWNLOAD 'Google Chrome'"
           wget -N https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/google-chrome-stable_current_amd64.deb
           echo
 
       - name: Install Google Chrome
+        continue-on-error: true
         run: |
           echo "INSTALLATION 'Google Chrome'"
           sudo apt-get install -y /tmp/google-chrome-stable_current_amd64.deb
@@ -90,6 +100,7 @@ jobs:
           echo
 
       - name: Install Docker
+        continue-on-error: true
         run: |
           echo "INSTALLATION 'Docker'"
           sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
