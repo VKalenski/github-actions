@@ -51,7 +51,11 @@ jobs:
         run: |
           echo "INSTALLATION 'unzip'"
           sudo apt-get install unzip -y
-          unzip --version
+          if unzip --version; then
+            echo "'unzip' installed successfully"
+          else
+            echo "the newest version of 'unzip' already installed"
+          fi
           echo
 
       - name: Install netstat
@@ -67,7 +71,8 @@ jobs:
         run: |
           echo "INSTALLATION 'xvfb'"
           sudo apt-get install xvfb -y
-          Xvfb --version
+          # Xvfb --version
+          xvfb --version
           echo
 
       - name: Install .NET 8.0 SDK
@@ -96,7 +101,6 @@ jobs:
           echo "INSTALLATION 'Google Chrome'"
           sudo apt-get install -y /tmp/google-chrome-stable_current_amd64.deb
           google-chrome --version
-          rm *.deb
           echo
 
       - name: Install Docker
