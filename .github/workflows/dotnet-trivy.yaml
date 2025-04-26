@@ -1,0 +1,57 @@
+name: Push Docker Image and Security Scan with Trivy
+
+on:
+  workflow_call:
+    inputs:
+      docker-hub-account:
+        description: 'Docker Hub username'
+        required: true
+        type: string
+      image-name:
+        description: 'Docker image name'
+        required: true
+        type: string
+      image-version:
+        description: 'Docker image version/tag'
+        required: false
+        type: string
+        default: 'latest'
+      project-path:
+        description: 'Path to the Dockerfile'
+        required: true
+        type: string
+      docker-username:
+        description: 'Docker Hub login username'
+        required: true
+        type: string
+      docker-password:
+        description: 'Docker Hub login password'
+        required: true
+        type: string
+
+jobs:
+  build_and_scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    continue-on-error: false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build and Push Docker Image
+        uses: VKalenski/GitHub-Actions-Templates/.github/actions/dotnet-docker@main
+        with:
+          docker-hub-account: ${{ inputs.docker-hub-account }}
+          image-name: ${{ inputs.image-name }}
+          image-version: ${{ inputs.image-version }}
+          project-path: ${{ inputs.project-path }}
+          docker-username: ${{ inputs.docker-username }}
+          docker-password: ${{ inputs.docker-password }}
+
+      - name: Scan with Trivy
+        uses: VKalenski/GitHub-Actions-Templates/.github/actions/dotnet-trivy@main
+        with:
+          docker-hub-account: ${{ inputs.docker-hub-account }}
+          image-name: ${{ inputs.image-name }}
+          image-version: ${{ inputs.image-version }}

@@ -1,0 +1,35 @@
+name: 'Trivy Vulnerability Scan and Save Results'
+description: 'Scans a Docker image for vulnerabilities using Trivy and saves the results as an artifact'
+
+inputs:
+  docker-hub-account:
+    description: 'Docker Hub username'
+    required: true
+  image-name:
+    description: 'Docker image name'
+    required: true
+  image-version:
+    description: 'Docker image version/tag to scan'
+    required: false
+    default: 'latest'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@0.30.0
+      continue-on-error: true
+      with:
+        image-ref: "${{ inputs.docker-hub-account }}/${{ inputs.image-name }}:${{ inputs.image-version }}"
+        exit-code: 1
+        ignore-unfixed: true
+        format: "table"
+        severity: "CRITICAL,HIGH,MEDIUM,LOW"
+        output: "aquasecurity-scan.txt"
+
+    - name: Temporarily save Trivy results
+      uses: actions/upload-artifact@v4
+      with:
+        name: "aquasecurity-scan"
+        path: "./aquasecurity-scan.txt"
+        retention-days: 1
