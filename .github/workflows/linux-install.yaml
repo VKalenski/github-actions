@@ -18,58 +18,58 @@ jobs:
 
       - name: Update Packages
         run: |
-          echo "RUN APT UPDATE"
-          sudo apt update
+          echo "UPDATE"
+          sudo apt-get update
           echo
 
       - name: Upgrade Packages
         run: |
-          echo "RUN APT UPGRADE"
-          sudo apt upgrade -y
+          echo "UPGRADE"
+          sudo apt-get upgrade -y
           echo
 
       - name: Install wget
         run: |
-          echo "RUN APT INSTALL WGET"
-          sudo apt install wget -y
+          echo "INSTALL WGET"
+          sudo apt-get install wget -y
           wget --version
           echo
 
       - name: Install curl
         run: |
           echo "INSTALLATION 'curl'"
-          sudo apt install curl -y
+          sudo apt-get install curl -y
           curl --version
           echo
 
       - name: Install unzip
         run: |
           echo "INSTALLATION 'unzip'"
-          sudo apt install unzip -y
+          sudo apt-get install unzip -y
           unzip --version
           echo
 
       - name: Install netstat
         run: |
           echo "INSTALLATION 'netstat'"
-          sudo apt install net-tools -y
+          sudo apt-get install net-tools -y
           netstat --version
           echo
 
       - name: Install xvfb
         run: |
           echo "INSTALLATION 'xvfb'"
-          sudo apt install xvfb -y
+          sudo apt-get install xvfb -y
           Xvfb --version
           echo
 
       - name: Install .NET 8.0 SDK
         run: |
           echo "INSTALLATION '.NET 8.0 SDK'"
-          sudo apt install -y wget apt-transport-https
+          sudo apt-get install -y wget apt-transport-https
           wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb
           sudo dpkg -i packages-microsoft-prod.deb
-          sudo apt install -y dotnet-sdk-8.0
+          sudo apt-get install -y dotnet-sdk-8.0
           dotnet --version
           rm *.deb
           echo "Installation completed and temporary files deleted."
@@ -84,18 +84,19 @@ jobs:
       - name: Install Google Chrome
         run: |
           echo "INSTALLATION 'Google Chrome'"
-          sudo apt install -y /tmp/google-chrome-stable_current_amd64.deb
+          sudo apt-get install -y /tmp/google-chrome-stable_current_amd64.deb
           google-chrome --version
+          rm *.deb
           echo
 
       - name: Install Docker
         run: |
           echo "INSTALLATION 'Docker'"
-          sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
+          sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
           curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
           sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
           apt-cache policy docker-ce
-          sudo apt install -y docker-ce
+          sudo apt-get install -y docker-ce
           sudo systemctl status docker
           # sudo usermod -aG docker ${USER}
           sudo usermod -aG docker $(whoami)
@@ -107,6 +108,6 @@ jobs:
         run: |
           echo "Pull MSSQL image and start the container"
           docker pull mcr.microsoft.com/mssql/server:2022-latest
-          docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=SA_PASSWORD" -p 1433:1433 --name sql1 --hostname sql1 -d mcr.microsoft.com/mssql/server:2022-latest
+          docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=${{ env.SA_PASSWORD }}" -p 1433:1433 --name sql1 --hostname sql1 -d mcr.microsoft.com/mssql/server:2022-latest
           docker update --restart=always sql1
           echo
