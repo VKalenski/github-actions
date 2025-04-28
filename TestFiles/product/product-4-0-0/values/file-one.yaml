@@ -1,0 +1,12 @@
+product-4-0-0:
+  product:
+    product-main-srv:
+      shmplm-base-helm-chart:
+        deployment:
+          resources:
+            requests:
+              memory: "200Mi"
+            limits:
+              memory: "350Mi"
+        ingress:
+          path: /test-us-product-4-0-0/product-srv(/|$)(.*)
