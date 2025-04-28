@@ -65,4 +65,8 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .
           git commit -am "Update deps"
-          git push origin main
+          # Create a new branch for the changes
+          BRANCH_NAME="vkalenski/test"
+          git checkout -b $BRANCH_NAME
+          # Push the changes using GITHUB_TOKEN for authentication
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} $BRANCH_NAME
