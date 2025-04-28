@@ -62,9 +62,8 @@ jobs:
           git add .
           git commit -am "Update deps"
 
-
           # Create a new branch for the changes
           BRANCH_NAME="update-deps-${{ github.sha }}"
           git checkout -b $BRANCH_NAME
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} $BRANCH_NAME
+          git push https://x-access-token:${{ secrets.MY_PERSONAL_TOKEN }}@github.com/${{ github.repository }} $BRANCH_NAME
 
