@@ -3,7 +3,7 @@ name: Copy and Replace
 on:
   workflow_dispatch:
     inputs:
-      source-folder:
+      base-folder:
         description: 'Choose the base folder'
         required: true
         type: choice
@@ -13,19 +13,20 @@ on:
       sub-folder:
         description: 'Choose a subfolder inside the base folder'
         required: true
-        type: choice
-        options:
-          - product-0-0-0
-          - product-1-0-0
-          - review-0-0-0
-          - review-1-0-0
-      destination-folder:
-        description: 'The new folder'
-        required: true
-        type: choice
-        options:
-          - ./TestFiles/product
-          - ./TestFiles/review
+        type: string
+        # type: choice
+        # options:
+        #   - product-0-0-0
+        #   - product-1-0-0
+        #   - review-0-0-0
+        #   - review-1-0-0
+      # destination-folder:
+      #   description: 'The new folder'
+      #   required: true
+      #   type: choice
+      #   options:
+      #     - ./TestFiles/product
+      #     - ./TestFiles/review
       destination-sub-folder:
         description: 'Choose a subfolder inside the base folder'
         required: true
@@ -45,7 +46,7 @@ jobs:
 
       - name: Check if destination folder already exists
         run: |
-          DEST="${{ inputs.destination-folder }}/${{ inputs.destination-sub-folder }}"
+          DEST="${{ inputs.base-folder }}/${{ inputs.destination-sub-folder }}"
           if [ -d "$DEST" ]; then
             echo "ERROR: Destination folder $DEST already exists. Aborting process."
             exit 1
@@ -55,9 +56,9 @@ jobs:
 
       - name: Copy selected sub-folder with a new name
         run: |
-          echo "Copying from ${{ inputs.source-folder }}/${{ inputs.sub-folder }} to ${{ inputs.destination-folder }}/${{ inputs.destination-sub-folder }}"
-          mkdir -p "${{ inputs.destination-folder }}/${{ inputs.destination-sub-folder }}"
-          cp -r "${{ inputs.source-folder }}/${{ inputs.sub-folder }}/." "${{ inputs.destination-folder }}/${{ inputs.destination-sub-folder }}"
+          echo "Copying from ${{ inputs.base-folder }}/${{ inputs.sub-folder }} to ${{ inputs.base-folder }}/${{ inputs.destination-sub-folder }}"
+          mkdir -p "${{ inputs.base-folder }}/${{ inputs.destination-sub-folder }}"
+          cp -r "${{ inputs.base-folder }}/${{ inputs.sub-folder }}/." "${{ inputs.base-folder }}/${{ inputs.destination-sub-folder }}"
 
       - name: Commit changes to repository
         run: |
