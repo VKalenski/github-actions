@@ -57,7 +57,7 @@ jobs:
         run: |
           echo "Copying from ${{ inputs.source-folder }}/${{ inputs.sub-folder }} to ${{ inputs.destination-folder }}/${{ inputs.destination-sub-folder }}"
           mkdir -p "${{ inputs.destination-folder }}/${{ inputs.destination-sub-folder }}"
-          cp -r "${{ inputs.source-folder }}/${{ inputs.sub-folder }}" "${{ inputs.destination-folder }}/${{ inputs.destination-sub-folder }}"
+          cp -r "${{ inputs.source-folder }}/${{ inputs.sub-folder }}/." "${{ inputs.destination-folder }}/${{ inputs.destination-sub-folder }}"
 
       - name: Commit changes to repository
         run: |
