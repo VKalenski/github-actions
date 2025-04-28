@@ -61,4 +61,10 @@ jobs:
           git config user.email "<>"
           git add .
           git commit -am "Update deps"
-          git push origin main
+
+
+          # Create a new branch for the changes
+          BRANCH_NAME="update-deps-${{ github.sha }}"
+          git checkout -b $BRANCH_NAME
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} $BRANCH_NAME
+
