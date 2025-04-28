@@ -1,4 +1,24 @@
-name: Copy and Replace
+#############################################################################################
+#################### GitHub Actions Workflow: Copy and Replace Subfolder ####################
+#############################################################################################
+# Description:
+# This workflow copies a selected subfolder from a given base folder to a new destination
+# subfolder. It also replaces all occurrences of the original subfolder name inside the
+# files with the new subfolder name, and commits the changes back to the main branch.
+#
+# Steps:
+# 1. Verify that the source subfolder exists.
+# 2. Ensure that the destination subfolder does not already exist.
+# 3. Copy the source subfolder into the new destination subfolder.
+# 4. Replace all occurrences of the source subfolder name inside file contents with the new name.
+# 5. Commit and push the changes to the repository using GITHUB_TOKEN authentication.
+#
+# Note:
+# The workflow uses 'persist-credentials: false' during checkout to avoid storing
+# personal credentials. All Git operations are authenticated with the default GITHUB_TOKEN.
+#############################################################################################
+
+name: Copy and Replace Subfolder
 
 on:
   workflow_dispatch:
