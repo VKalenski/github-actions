@@ -34,10 +34,14 @@ on:
 jobs:
   copy-folder:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          persist-credentials: "false"
 
       - name: Check if destination folder already exists
         run: |
@@ -61,9 +65,5 @@ jobs:
           git config user.email "<>"
           git add .
           git commit -am "Update deps"
-
-          # Create a new branch for the changes
-          BRANCH_NAME="update-deps-${{ github.sha }}"
-          git checkout -b $BRANCH_NAME
-          git push https://x-access-token:${{ secrets.MY_PERSONAL_TOKEN }}@github.com/${{ github.repository }} $BRANCH_NAME
+          git push origin main
 
