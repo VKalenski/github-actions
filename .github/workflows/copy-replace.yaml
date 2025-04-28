@@ -1,0 +1,64 @@
+name: Copy and Replace
+
+on:
+  workflow_dispatch:
+    inputs:
+      source-folder:
+        description: 'Choose the base folder'
+        required: true
+        type: choice
+        options:
+          - ./TestFiles/product
+          - ./TestFiles/review
+      sub-folder:
+        description: 'Choose a subfolder inside the base folder'
+        required: true
+        type: choice
+        options:
+          - product-0-0-0
+          - product-1-0-0
+          - review-0-0-0
+          - review-1-0-0
+      destination-folder:
+        description: 'The new folder'
+        required: true
+        type: choice
+        options:
+          - ./TestFiles/product
+          - ./TestFiles/review
+      destination-sub-folder:
+        description: 'Choose a subfolder inside the base folder'
+        required: true
+        type: string
+
+jobs:
+  copy-folder:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check if destination folder already exists
+        run: |
+          DEST="${{ inputs.destination-folder }}/${{ inputs.destination-sub-folder }}"
+          if [ -d "$DEST" ]; then
+            echo "ERROR: Destination folder $DEST already exists. Aborting process."
+            exit 1
+          else
+            echo "Destination folder does not exist, proceeding with copying."
+          fi
+
+      - name: Copy selected sub-folder
+        run: |
+          echo "Copying from ${{ inputs.source-folder }}/${{ inputs.sub-folder }} to ${{ inputs.destination-folder }}/${{ inputs.destination-sub-folder }}"
+          mkdir -p "${{ inputs.destination-folder }}/${{ inputs.destination-sub-folder }}"
+          cp -r "${{ inputs.source-folder }}/${{ inputs.sub-folder }}" "${{ inputs.destination-folder }}/${{ inputs.destination-sub-folder }}"
+
+      - name: Commit changes to repository
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "<>"
+          git add .
+          git commit -am "Update deps"
+          git push origin main
