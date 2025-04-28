@@ -1,0 +1,60 @@
+name: Install Minikube, Deploy App with Namespace, and Teardown
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  install-minikube-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update -y
+        sudo apt-get install -y curl apt-transport-https conntrack
+
+    - name: Install kubectl
+      run: |
+        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+        sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+        kubectl version --client
+
+    - name: Install Minikube
+      run: |
+        curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        sudo install minikube-linux-amd64 /usr/local/bin/minikube
+        minikube version
+
+    - name: Start Minikube
+      run: |
+        sudo minikube start --driver=docker
+        minikube status
+
+    - name: Create Namespace
+      run: |
+        kubectl apply -f k8s/namespace.yaml
+
+    - name: Apply Kubernetes Manifests
+      run: |
+        kubectl apply -f k8s/deployment.yaml
+        kubectl apply -f k8s/service.yaml
+
+    - name: Wait for Deployment to be Ready
+      run: |
+        kubectl rollout status deployment/hello-minikube -n demo --timeout=120s
+
+    - name: Port-forward and test
+      run: |
+        kubectl port-forward svc/hello-minikube-service 8080:8080 -n demo &
+        sleep 5
+        curl --retry 10 --retry-delay 5 http://localhost:8080
+
+    - name: Teardown Minikube
+      if: always()
+      run: |
+        sudo minikube delete
