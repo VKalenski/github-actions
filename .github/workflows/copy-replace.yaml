@@ -11,7 +11,7 @@ on:
           - ./TestFiles/product
           - ./TestFiles/review
       sub-folder:
-        description: 'Choose a subfolder inside the base folder'
+        description: 'Choose a subfolder inside the base folder. For example: "product-0-0-0"'
         required: true
         type: string
         # type: choice
@@ -28,7 +28,7 @@ on:
       #     - ./TestFiles/product
       #     - ./TestFiles/review
       destination-sub-folder:
-        description: 'Choose a subfolder inside the base folder'
+        description: 'Choose a subfolder inside the base folder. For example: "product-x-0-0"'
         required: true
         type: string
 
@@ -60,6 +60,11 @@ jobs:
           mkdir -p "${{ inputs.base-folder }}/${{ inputs.destination-sub-folder }}"
           cp -r "${{ inputs.base-folder }}/${{ inputs.sub-folder }}/." "${{ inputs.base-folder }}/${{ inputs.destination-sub-folder }}"
 
+      - name: Replace sub-folder name in files
+        run: |
+          echo "Replacing all instances of ${{ inputs.sub-folder }} with ${{ inputs.destination-sub-folder }} in files."
+          find "${{ inputs.base-folder }}/${{ inputs.destination-sub-folder }}" -type f -exec sed -i "s|${{ inputs.sub-folder }}|${{ inputs.destination-sub-folder }}|g" {} +
+
       - name: Commit changes to repository
         run: |
           git config user.name "GitHub Actions"
@@ -68,4 +73,3 @@ jobs:
           git commit -am "Update deps"
           # Push the changes directly to the main branch using GITHUB_TOKEN for authentication
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} main
-
