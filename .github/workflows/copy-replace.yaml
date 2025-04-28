@@ -14,19 +14,6 @@ on:
         description: 'Choose a subfolder inside the base folder. For example: "product-0-0-0"'
         required: true
         type: string
-        # type: choice
-        # options:
-        #   - product-0-0-0
-        #   - product-1-0-0
-        #   - review-0-0-0
-        #   - review-1-0-0
-      # destination-folder:
-      #   description: 'The new folder'
-      #   required: true
-      #   type: choice
-      #   options:
-      #     - ./TestFiles/product
-      #     - ./TestFiles/review
       destination-sub-folder:
         description: 'Choose a subfolder inside the base folder. For example: "product-x-0-0"'
         required: true
@@ -41,10 +28,23 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        continue-on-error: false
         with:
           persist-credentials: "false"
 
+      - name: Check if source folder exists
+        continue-on-error: false
+        run: |
+          SRC="${{ inputs.base-folder }}/${{ inputs.sub-folder }}"
+          if [ ! -d "$SRC" ]; then
+            echo "ERROR: Source folder $SRC does not exist. Aborting process."
+            exit 1
+          else
+            echo "Source folder $SRC found, proceeding with copying."
+          fi
+
       - name: Check if destination folder already exists
+        continue-on-error: false
         run: |
           DEST="${{ inputs.base-folder }}/${{ inputs.destination-sub-folder }}"
           if [ -d "$DEST" ]; then
@@ -67,9 +67,10 @@ jobs:
 
       - name: Commit changes to repository
         run: |
+          echo "Setting up Git configuration for commit."
           git config user.name "GitHub Actions"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -am "Update deps"
-          # Push the changes directly to the main branch using GITHUB_TOKEN for authentication
+          echo "Committing changes with message: 'Copy and replace sub-folder from ${{ inputs.sub-folder }} to ${{ inputs.destination-sub-folder }}'"
+          git commit -am "Copy and replace sub-folder '${{ inputs.sub-folder }}' with '${{ inputs.destination-sub-folder }}'"
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} main
