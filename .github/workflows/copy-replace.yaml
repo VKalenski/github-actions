@@ -61,9 +61,8 @@ jobs:
 
       - name: Commit changes to repository
         run: |
-          git config user.name "GitHub Actions"
-          git config user.email "<>"
+          git config user.name "VKalenski"
+          git config user.email "vilislavkalenski@gmail.com"
           git add .
           git commit -am "Update deps"
           git push origin main
-
