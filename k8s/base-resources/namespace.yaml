@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: test
+  labels:
+    environment: production
+    app: hello-minikube
+  annotations:
+    description: "Namespace for the test application"
+
+---
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dev
+  labels:
+    environment: production
+    app: hello-minikube
+  annotations:
+    description: "Namespace for the development application"
+
+---
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: val
+  labels:
+    environment: production
+    app: hello-minikube
+  annotations:
+    description: "Namespace for the validation application"
