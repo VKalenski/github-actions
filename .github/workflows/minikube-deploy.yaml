@@ -48,11 +48,11 @@ jobs:
 
     - name: Wait for Deployment to be Ready
       run: |
-        kubectl rollout status deployment/hello-minikube -n demo --timeout=120s
+        kubectl rollout status deployment/hello-minikube -n test --timeout=120s
 
     - name: Port-forward and test
       run: |
-        kubectl port-forward svc/hello-minikube-service 8080:8080 -n demo &
+        kubectl port-forward svc/hello-minikube-service 8080:8080 -n test &
         sleep 5
         curl --retry 10 --retry-delay 5 http://localhost:8080
 
