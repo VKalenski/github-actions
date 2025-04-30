@@ -37,11 +37,10 @@ jobs:
 
     - name: Create Namespace
       run: |
-        kubectl apply -f k8s/namespace.yaml
+        kubectl apply -f k8s/base-resources/namespace.yaml
 
     - name: Apply Kubernetes Manifests
       run: |
-        kubectl apply -f k8s/base-resources/namespace.yaml
         kubectl apply -f k8s/base-resources/deployment.yaml
         kubectl apply -f k8s/base-resources/service.yaml
         kubectl apply -f k8s/base-resources/ingress.yaml

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hello-minikube-deployment
-  namespace: test
+  # namespace: test
   labels:
     app: hello-minikube
     tier: backend
