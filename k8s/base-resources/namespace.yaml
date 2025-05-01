@@ -1,9 +1,21 @@
 apiVersion: v1
 kind: Namespace
 metadata:
+  name: argocd
+  labels:
+    # environment: test # test, dev, val, prod
+    app: hello-minikube
+  annotations:
+    description: "Namespace for the argocd application"
+
+---
+
+apiVersion: v1
+kind: Namespace
+metadata:
   name: test
   labels:
-    environment: production
+    # environment: test # test, dev, val, prod
     app: hello-minikube
   annotations:
     description: "Namespace for the test application"
@@ -15,7 +27,7 @@ kind: Namespace
 metadata:
   name: dev
   labels:
-    environment: production
+    # environment: dev # test, dev, val, prod
     app: hello-minikube
   annotations:
     description: "Namespace for the development application"
@@ -27,7 +39,19 @@ kind: Namespace
 metadata:
   name: val
   labels:
-    environment: production
+    # environment: val # test, dev, val, prod
     app: hello-minikube
   annotations:
     description: "Namespace for the validation application"
+
+---
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: prod
+  labels:
+    # environment: prod # test, dev, val, prod
+    app: hello-minikube
+  annotations:
+    description: "Namespace for the production application"
