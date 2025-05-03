@@ -16,7 +16,7 @@ on:
 
 jobs:
   install-tools:
-    runs-on: kalenski-runner # self-hosted-runner
+    runs-on: self-hosted # kalenski-runner, self-hosted-runner
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
