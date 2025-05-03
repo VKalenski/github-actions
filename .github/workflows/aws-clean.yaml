@@ -35,7 +35,7 @@ jobs:
         cat logs/cleanup_log.txt
 
     - name: Upload cleanup logs as an artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: ec2-cleanup-log
         path: logs/cleanup_log.txt
