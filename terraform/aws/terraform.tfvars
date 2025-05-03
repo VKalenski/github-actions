@@ -1,5 +1,0 @@
-aws_region         = "eu-west-3"
-instance_type      = "t2.micro"
-key_name           = "aws_terraform_key"
-public_key_path    = "~/.ssh/aws_terraform_key.pub"
-security_group_name = "allow-ssh"

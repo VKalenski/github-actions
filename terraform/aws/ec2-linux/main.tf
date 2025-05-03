@@ -31,6 +31,6 @@ resource "aws_instance" "example" {
   associate_public_ip_address = true
 
   tags = {
-    Name = "TerraformEC2Instance"
+    Name = "my-free-linux-vm"
   }
 }

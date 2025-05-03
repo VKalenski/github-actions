@@ -1,0 +1,25 @@
+# Ignore Terraform working directory
+.terraform/
+
+# Ignore Terraform lock file (can be committed if version control is desired)
+.terraform.lock.hcl
+
+# Ignore Terraform state files
+*.tfstate
+*.tfstate.backup
+
+# Ignore variable definition files (can contain sensitive data)
+*.tfvars
+*.tfvars.json
+
+# Ignore Terraform plan output
+terraform.tfplan
+
+# Ignore crash logs and debug logs
+crash.log
+*.log
+
+# Ignore editor and OS-specific files
+.DS_Store
+.idea/
+.vscode/
