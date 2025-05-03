@@ -1,0 +1,50 @@
+name: AWS EC2 Cleanup
+
+on:
+  workflow_dispatch:
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install boto3 tabulate
+
+    - name: Set up AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: 'eu-west-3'
+
+    - name: Run EC2 Cleanup Script and log output
+      run: |
+        mkdir -p logs
+        python list_old_ec2_instances.py > logs/cleanup_log.txt
+        cat logs/cleanup_log.txt
+
+    - name: Create GitHub Release and upload logs
+      run: |
+        RELEASE_NAME="EC2 Cleanup $(date +'%Y-%m-%d %H:%M:%S')"
+        BODY="This release contains the logs of the EC2 cleanup process."
+
+        # Create release on GitHub using API
+        curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+        -d '{"tag_name": "cleanup-$(date +%Y%m%d%H%M%S)", "name": "'"$RELEASE_NAME"'", "body": "'"$BODY"'"}' \
+        https://api.github.com/repos/${{ github.repository }}/releases
+
+        # Upload the log file to the release
+        curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+        -F "file=@logs/cleanup_log.txt" \
+        https://uploads.github.com/repos/${{ github.repository }}/releases/<RELEASE_ID>/assets?name=cleanup_log.txt
