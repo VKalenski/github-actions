@@ -32,7 +32,7 @@ jobs:
       run: |
         mkdir -p logs
         python ./python/aws/cleanup_aws_ec2_safe.py >> logs/cleanup_log.txt
-        echo "LOG_FILE_PATH=logs/cleanup_log.txt" >> $GITHUB_ENV  # Store log file path in environment variable
+        echo "LOG_FILE_PATH=logs/cleanup_log.txt" >> $GITHUB_ENV
 
     - name: Upload cleanup logs as an artifact
       uses: actions/upload-artifact@v4
