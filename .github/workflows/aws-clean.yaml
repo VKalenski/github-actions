@@ -31,7 +31,7 @@ jobs:
     - name: Run EC2 Cleanup Script and log output
       run: |
         mkdir -p logs
-        python list_old_ec2_instances.py > logs/cleanup_log.txt
+        python ./python/aws/cleanup_aws_ec2_safe.py > logs/cleanup_log.txt
         cat logs/cleanup_log.txt
 
     - name: Create GitHub Release and upload logs
