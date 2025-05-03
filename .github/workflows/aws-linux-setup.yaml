@@ -1,4 +1,9 @@
-name: Install Tools on Ubuntu
+# This GitHub Actions workflow installs essential development tools
+# (wget, curl, .NET SDK, Docker, Chrome, MSSQL container, etc.)
+# on a self-hosted Ubuntu Linux runner in AWS.
+# Triggered manually via workflow_dispatch with a custom MSSQL password.
+
+name: Setup Dev Tools on AWS Ubuntu Self-Hosted Runner
 
 on:
   workflow_dispatch:
@@ -11,7 +16,7 @@ on:
 
 jobs:
   install-tools:
-    runs-on: kalenski-runner # ubuntu-latest
+    runs-on: kalenski-runner # self-hosted-runner
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
