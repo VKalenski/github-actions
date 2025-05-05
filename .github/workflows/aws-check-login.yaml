@@ -15,7 +15,7 @@ jobs:
           echo "🌍 Timezone: $(date +'%Z')"
 
       - name: Set up AWS credentials
-        uses: VKalenski/GitHub-Actions-Templates/.github/actions/aws-credentials@main
+        uses: VKalenski/GitHub-Actions-Templates/.github/actions/aws-login@main
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
