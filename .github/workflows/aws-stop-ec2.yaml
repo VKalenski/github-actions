@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Configure AWS credentials
-        uses: ./.github/actions/aws-configure
+        uses: VKalenski/GitHub-Actions-Templates/.github/actions/aws-configure@main
         with:
           region: 'eu-west-3'
 
