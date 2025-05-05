@@ -4,19 +4,6 @@ on:
   schedule:
     - cron: '0 22 * * *' # Every day at 22:00 UTC
   workflow_dispatch:
-    inputs:
-      aws-access-key-id:
-        description: AWS access key
-        required: true
-        type: string
-      aws-secret-access-key:
-        description: AWS secret key
-        required: true
-        type: string
-      region:
-        description: AWS region
-        required: true
-        type: string
 
 jobs:
   stop-ec2:
