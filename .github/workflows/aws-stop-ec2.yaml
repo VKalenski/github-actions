@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Print time
+        run: date
+
       - name: Set up AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -20,14 +23,17 @@ jobs:
 
       - name: Stop all running EC2 instances
         run: |
+          echo "🔍 Checking for running EC2 instances..."
+
           INSTANCE_IDS=$(aws ec2 describe-instances \
             --filters "Name=instance-state-name,Values=running" \
             --query "Reservations[].Instances[].InstanceId" \
             --output text)
 
           if [ -n "$INSTANCE_IDS" ]; then
-            echo "Stopping EC2 instances: $INSTANCE_IDS"
+            echo "🛑 Stopping EC2 instances: $INSTANCE_IDS"
             aws ec2 stop-instances --instance-ids $INSTANCE_IDS
+            echo "✅ Successfully sent stop command to EC2 instances."
           else
-            echo "No running EC2 instances to stop."
+            echo "👌 No running EC2 instances to stop."
           fi
