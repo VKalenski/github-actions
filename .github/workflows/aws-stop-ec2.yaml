@@ -11,8 +11,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print time
-        run: date
+      - name: 🕒 Show current date and time
+        run: |
+          echo "📅 Current Date: $(date +'%Y-%m-%d')"
+          echo "⏰ Current Time: $(date +'%H:%M:%S')"
+          echo "🌍 Timezone: $(date +'%Z')"
 
       - name: Set up AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
