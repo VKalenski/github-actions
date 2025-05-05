@@ -4,6 +4,16 @@ on:
   schedule:
     - cron: '0 22 * * *' # Every day at 22:00 UTC
   workflow_dispatch:
+    inputs:
+      aws-access-key-id:
+        description: AWS access key
+        required: true
+      aws-secret-access-key:
+        description: AWS secret key
+        required: true
+      region:
+        description: AWS region
+        required: true
 
 jobs:
   stop-ec2:
@@ -13,6 +23,8 @@ jobs:
       - name: Configure AWS credentials
         uses: VKalenski/GitHub-Actions-Templates/.github/actions/aws-credentials@main
         with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           region: 'eu-west-3'
 
       - name: Stop all running EC2 instances
