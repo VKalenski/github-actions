@@ -8,24 +8,27 @@ on:
       aws-access-key-id:
         description: AWS access key
         required: true
+        type: string
       aws-secret-access-key:
         description: AWS secret key
         required: true
+        type: string
       region:
         description: AWS region
         required: true
+        type: string
 
 jobs:
   stop-ec2:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Configure AWS credentials
-        uses: VKalenski/GitHub-Actions-Templates/.github/actions/aws-credentials@main
+      - name: Set up AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          region: 'eu-west-3'
+          aws-region: 'eu-west-3'
 
       - name: Stop all running EC2 instances
         run: |
