@@ -17,14 +17,14 @@ jobs:
           echo "⏰ Current Time: $(date +'%H:%M:%S')"
           echo "🌍 Timezone: $(date +'%Z')"
 
-      - name: Set up AWS credentials
+      - name: 🔑 Set up AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: 'eu-west-3'
 
-      - name: Stop all running EC2 instances
+      - name: ⚡ Stop all running EC2 instances
         run: |
           echo "🔍 Checking for running EC2 instances..."
 
