@@ -1,0 +1,21 @@
+name: 'Show current date and time'
+description: 'Displays the current date, time, and timezone'
+
+inputs:
+  format:
+    description: 'The format to display the date and time'
+    required: false
+    default: 'short'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 🕒 Show current date and time
+      run: |
+        if [ "${{ inputs.format }}" == "short" ]; then
+          echo "📅 Current Date: $(date +'%Y-%m-%d')"
+          echo "⏰ Current Time: $(date +'%H:%M:%S')"
+          echo "🌍 Timezone: $(date +'%Z')"
+        else
+          echo "📅 Full Date: $(date)"
+        fi

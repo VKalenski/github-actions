@@ -9,12 +9,11 @@ jobs:
 
     steps:
       - name: 🕒 Show current date and time
-        run: |
-          echo "📅 Current Date: $(date +'%Y-%m-%d')"
-          echo "⏰ Current Time: $(date +'%H:%M:%S')"
-          echo "🌍 Timezone: $(date +'%Z')"
+        uses: VKalenski/GitHub-Actions-Templates/.github/actions/show-time@main
+        with:
+          format: 'short'
 
-      - name: Set up AWS credentials
+      - name: 🔑 Set up AWS credentials
         uses: VKalenski/GitHub-Actions-Templates/.github/actions/aws-login@main
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
