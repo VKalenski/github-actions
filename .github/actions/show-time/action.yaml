@@ -19,3 +19,4 @@ runs:
         else
           echo "📅 Full Date: $(date)"
         fi
+      shell: bash
