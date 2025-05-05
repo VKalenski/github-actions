@@ -1,4 +1,4 @@
-name: AWS Stop EC2 Instances
+name: AWS Check login
 
 on:
   workflow_dispatch:
@@ -15,25 +15,29 @@ jobs:
           echo "🌍 Timezone: $(date +'%Z')"
 
       - name: Set up AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: VKalenski/GitHub-Actions-Templates/.github/actions/aws-credentials@main
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: 'eu-west-3'
 
-      - name: Stop all running EC2 instances
-        run: |
-          echo "🔍 Checking for running EC2 instances..."
+      - name: 🔒 Verify identity
+        run: aws sts get-caller-identity
 
-          INSTANCE_IDS=$(aws ec2 describe-instances \
+      - name: 📡 List EC2 instances (running only)
+        run: |
+          echo "Fetching running EC2 instances..."
+          aws ec2 describe-instances \
             --filters "Name=instance-state-name,Values=running" \
             --query "Reservations[].Instances[].InstanceId" \
-            --output text)
+            --output table
 
-          if [ -n "$INSTANCE_IDS" ]; then
-            echo "🛑 Stopping EC2 instances: $INSTANCE_IDS"
-            aws ec2 stop-instances --instance-ids $INSTANCE_IDS
-            echo "✅ Successfully sent stop command to EC2 instances."
-          else
-            echo "👌 No running EC2 instances to stop."
-          fi
+      - name: 📂 List S3 buckets
+        run: |
+          echo "Listing S3 buckets..."
+          aws s3 ls
+
+      - name: 🧪 Test AWS CLI version and region
+        run: |
+          aws --version
+          echo "Current region: $(aws configure get region)"
