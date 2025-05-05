@@ -1,4 +1,4 @@
-name: Stop AWS EC2 Instances
+name: AWS Stop EC2 Instances
 
 on:
   schedule:
