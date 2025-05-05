@@ -1,0 +1,39 @@
+name: AWS Stop EC2 Instances
+
+on:
+  workflow_dispatch:
+
+jobs:
+  stop-ec2:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🕒 Show current date and time
+        run: |
+          echo "📅 Current Date: $(date +'%Y-%m-%d')"
+          echo "⏰ Current Time: $(date +'%H:%M:%S')"
+          echo "🌍 Timezone: $(date +'%Z')"
+
+      - name: Set up AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: 'eu-west-3'
+
+      - name: Stop all running EC2 instances
+        run: |
+          echo "🔍 Checking for running EC2 instances..."
+
+          INSTANCE_IDS=$(aws ec2 describe-instances \
+            --filters "Name=instance-state-name,Values=running" \
+            --query "Reservations[].Instances[].InstanceId" \
+            --output text)
+
+          if [ -n "$INSTANCE_IDS" ]; then
+            echo "🛑 Stopping EC2 instances: $INSTANCE_IDS"
+            aws ec2 stop-instances --instance-ids $INSTANCE_IDS
+            echo "✅ Successfully sent stop command to EC2 instances."
+          else
+            echo "👌 No running EC2 instances to stop."
+          fi
