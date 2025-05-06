@@ -1,0 +1,27 @@
+name: 'Setup Azure Credentials'
+description: 'Configure Azure credentials from GitHub secrets'
+
+inputs:
+  azure-client-id:
+    description: "Azure Client ID"
+    required: true
+  azure-client-secret:
+    description: "Azure Client Secret"
+    required: true
+  azure-tenant-id:
+    description: "Azure Tenant ID"
+    required: true
+  azure-subscription-id:
+    description: "Azure Subscription ID"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Azure credentials
+      uses: azure/login@v2
+      with:
+        client-id: ${{ inputs.azure-client-id }}
+        client-secret: ${{ inputs.azure-client-secret }}
+        tenant-id: ${{ inputs.azure-tenant-id }}
+        subscription-id: ${{ inputs.azure-subscription-id }}
