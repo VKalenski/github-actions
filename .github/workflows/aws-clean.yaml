@@ -21,8 +21,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install boto3 tabulate
 
-    - name: Set up AWS credentials
-      uses: aws-actions/configure-aws-credentials@v4
+    - name: 🔑 Set up AWS credentials
+      uses: VKalenski/GitHub-Actions-Templates/.github/actions/aws-login@main
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
