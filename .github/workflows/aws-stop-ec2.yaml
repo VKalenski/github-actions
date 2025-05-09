@@ -3,7 +3,7 @@ name: AWS Stop EC2 Instances
 on:
   schedule:
     - cron: '0 22 * * *' # Every day at 22:00
-      timeZone: 'Europe/Sofia'
+      # timeZone: 'Europe/Sofia'
   workflow_dispatch:
 
 jobs:

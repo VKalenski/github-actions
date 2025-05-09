@@ -1,4 +1,4 @@
-name: AWS Start Specific EC2 Instance
+name: AWS Start EC2 Instance
 
 on:
   workflow_dispatch:
