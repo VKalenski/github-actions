@@ -1,0 +1,30 @@
+name: AWS Start Specific EC2 Instance
+
+on:
+  workflow_dispatch:
+
+jobs:
+  start-ec2:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🕒 Show current date and time
+        run: |
+          echo "📅 Current Date: $(date +'%Y-%m-%d')"
+          echo "⏰ Current Time: $(date +'%H:%M:%S')"
+          echo "🌍 Timezone: $(date +'%Z')"
+
+      - name: 🔑 Set up AWS credentials
+        uses: VKalenski/GitHub-Actions-Templates/.github/actions/aws-login@main
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: 'eu-west-3'
+
+      - name: 🚀 Start EC2 instance
+        run: |
+          INSTANCE_ID="${{ secrets.EC2_INSTANCE_ID }}"
+
+          echo "🔍 Starting EC2 instance: $INSTANCE_ID"
+          aws ec2 start-instances --instance-ids $INSTANCE_ID
+          echo "✅ Successfully sent start command to $INSTANCE_ID."
