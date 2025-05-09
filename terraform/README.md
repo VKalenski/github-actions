@@ -5,7 +5,7 @@ aws configure list
 
 aws ec2 describe-instances
 
-aws configure 
+aws configure
 
 AKIAQCNDKY5ESE3WAWNF
 
