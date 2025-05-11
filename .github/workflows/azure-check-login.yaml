@@ -1,0 +1,41 @@
+name: Azure Check login
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check-azure:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🕒 Show current date and time
+        uses: VKalenski/GitHub-Actions-Templates/.github/actions/show-time@main
+        with:
+          format: 'short'
+
+      - name: 🔑 Set up Azure credentials
+        uses: VKalenski/GitHub-Actions-Templates/.github/actions/azure-login@main
+        with:
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: 🔒 Verify identity
+        run: az account show
+
+      - name: 📡 List running Azure VMs
+        run: |
+          echo "Fetching running Azure VMs..."
+          az vm list --show-details --query "[?powerState=='VM running'].{name:name, resourceGroup:resourceGroup}" --output table
+
+      - name: 📂 List Azure storage accounts
+        run: |
+          echo "Listing Azure storage accounts..."
+          az storage account list --query "[].{Name:name, ResourceGroup:resourceGroup}" --output table
+
+      - name: 🧪 Test Azure CLI version and default subscription
+        run: |
+          az version
+          echo "Current subscription:"
+          az account show --query "{Name:name, ID:id}" --output table
