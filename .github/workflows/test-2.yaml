@@ -1,0 +1,25 @@
+name: System Info Test
+
+on: [push]
+
+jobs:
+  system-info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Show current directory
+        run: pwd
+
+      - name: List files
+        run: ls -la
+
+      - name: Show environment variables
+        run: env
+
+      - name: Simulate build step
+        run: echo "Pretend we're building something..."
+
+      - name: Print current date
+        run: date
