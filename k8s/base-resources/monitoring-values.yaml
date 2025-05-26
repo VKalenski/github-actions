@@ -1,0 +1,58 @@
+# -- Disable components not needed in Minikube
+kubeEtcd:
+  enabled: false
+
+kubeScheduler:
+  enabled: false
+
+kubeControllerManager:
+  enabled: false
+
+# -- Node Exporter (for host metrics)
+nodeExporter:
+  enabled: true
+
+# -- Kubelet metrics
+kubelet:
+  enabled: true
+
+# -- Prometheus config
+prometheus:
+  prometheusSpec:
+    retention: 12h  # reduce storage needs
+    resources:
+      requests:
+        memory: 200Mi
+        cpu: 100m
+      limits:
+        memory: 500Mi
+        cpu: 200m
+
+# -- Grafana config
+grafana:
+  enabled: true
+  adminUser: admin
+  adminPassword: mysecurepassword
+
+  # Enable NodePort to access Grafana from browser
+  service:
+    type: NodePort
+    nodePort: 32000
+    port: 80
+
+  # Minimal resource usage
+  resources:
+    requests:
+      memory: 100Mi
+      cpu: 50m
+    limits:
+      memory: 300Mi
+      cpu: 100m
+
+  # Dashboards - auto import basic ones
+  defaultDashboardsEnabled: true
+  sidecar:
+    dashboards:
+      enabled: true
+    datasources:
+      enabled: true
