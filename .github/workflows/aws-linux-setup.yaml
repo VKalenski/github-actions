@@ -19,7 +19,7 @@ jobs:
     runs-on: self-hosted # kalenski-runner, self-hosted-runner
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: 🔑 Set up AWS credentials
         uses: VKalenski/GitHub-Actions-Templates/.github/actions/aws-login@main
