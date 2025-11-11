@@ -1,4 +1,4 @@
-name: Azure Check login
+name: Azure check login
 
 on:
   workflow_dispatch:

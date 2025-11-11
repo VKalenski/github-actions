@@ -1,4 +1,5 @@
 name: 'Show current date and time'
+
 description: 'Displays the current date, time, and timezone'
 
 inputs:

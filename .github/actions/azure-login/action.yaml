@@ -1,4 +1,5 @@
 name: 'Setup Azure Credentials'
+
 description: 'Configure Azure credentials from GitHub secrets'
 
 inputs:
@@ -19,7 +20,7 @@ runs:
   using: "composite"
   steps:
     - name: Set up Azure credentials
-      uses: azure/login@v2
+      uses: azure/login@a457da9ea143d694b1b9c7c869ebb04ebe844ef5 # releases v2.3.0
       with:
         client-id: ${{ inputs.azure-client-id }}
         client-secret: ${{ inputs.azure-client-secret }}
