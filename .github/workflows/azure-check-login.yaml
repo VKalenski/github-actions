@@ -9,12 +9,12 @@ jobs:
 
     steps:
       - name: 🕒 Show current date and time
-        uses: VKalenski/GitHub-Actions-Templates/.github/actions/show-time@main
+        uses: VKalenski/GitHub-Actions-Templates/.github/actions/show-time@1.0.1
         with:
           format: 'short'
 
       - name: 🔑 Set up Azure credentials
-        uses: VKalenski/GitHub-Actions-Templates/.github/actions/azure-login@main
+        uses: VKalenski/GitHub-Actions-Templates/.github/actions/azure-login@1.0.1
         with:
           azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
           azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}

@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # releases v5.0.0
 
       - name: 🔑 Set up AWS credentials
-        uses: VKalenski/GitHub-Actions-Templates/.github/actions/aws-login@main
+        uses: VKalenski/GitHub-Actions-Templates/.github/actions/aws-login@1.0.1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

@@ -23,10 +23,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # releases v5.0.0
 
       - name: Setup .NET, Check the version, Restore, Build and Test
-        uses: VKalenski/GitHub-Actions-Templates/.github/actions/dotnet-version@main
+        uses: VKalenski/GitHub-Actions-Templates/.github/actions/dotnet-version@1.0.1
         with:
           project-name: ${{ inputs.project-name }}
           dotnet-version: ${{ inputs.dotnet-version }}
