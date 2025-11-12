@@ -1,6 +1,0 @@
-apiVersion: v2
-name: product-6-0-0
-description: A Helm chart for Kubernetes
-dependencies:
-- name: product
-  version: "0.1.0"

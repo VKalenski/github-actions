@@ -1,6 +1,6 @@
 apiVersion: v2
-name: product-4-0-0
+name: kalenski-4-0-0
 description: A Helm chart for Kubernetes
 dependencies:
-- name: product
+- name: kalenski
   version: "0.1.0"
